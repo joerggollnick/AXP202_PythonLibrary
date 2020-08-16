@@ -32,7 +32,7 @@ from machine import Pin, I2C
 import micropython
 from ustruct import unpack
 
-from constants import *
+from axp202.constants import *
 
 default_pin_scl = 22
 default_pin_sda = 21
@@ -336,7 +336,7 @@ class PMU(object):
             mv = 3500
         elif self.chip == AXP192_CHIP_ID and mv > 3300:
             mv = 3300
-        
+
         if self.chip == AXP202_CHIP_ID:
             val = (mv - 700) / 25
             prev = self.read_byte(AXP202_LDO3OUT_VOL)
@@ -350,7 +350,7 @@ class PMU(object):
             prev &= 0xF0
             prev = prev | int(val)
             self.write_byte(AXP192_LDO23OUT_VOL, int(prev))
-        
+
     def setLDO4Voltage(self, arg):
         data = self.read_byte(AXP202_LDO24OUT_VOL)
         data = data & 0xF0
@@ -455,7 +455,7 @@ class PMU(object):
         if(mask):
             return 0
         return data & (~self.__BIT_MASK(7))
-    
+
     def setChgLEDChgControl(self):
         data = self.read_byte(AXP202_OFF_CTL)
         data = data & 0b111110111
